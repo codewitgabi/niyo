@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";
 import { config } from "dotenv";
 import User from "../models/user.model.js";
-import { BadRequestError } from "../utils/error.handler.js";
+import { ApiError, BadRequestError } from "../utils/error.handler.js";
 config();
 
 export const register = async (req, res) => {
@@ -54,7 +54,12 @@ export const login = async (req, res) => {
       throw new BadRequestError("Password is incorrect");
     }
 
+    // update user last login
+
+    await User.findOneAndUpdate({ email }, { lastLogin: new Date() });
+
     // generate access tokens
+
     const { username, lastLogin, _id } = user;
 
     const accessToken = jwt.sign(
@@ -69,11 +74,6 @@ export const login = async (req, res) => {
         expiresIn: "5d",
       }
     );
-
-    // update user last login
-
-    // user.lastLogin = new Date();
-    // await user.save();
 
     res.status(StatusCodes.OK).json({
       data: {

@@ -32,7 +32,6 @@ export const createTask = async (req, res) => {
 
 export const getTasks = async (req, res) => {
   try {
-    console.log(req.user._id);
     const tasks = await Task.find({ owner: req.user._id });
 
     res
