@@ -26,7 +26,7 @@ The Niyo task management system uses express.js and mongodb for the backend serv
 
 #### Documentation
 
-The official documentation for this application can be seen at [Niyo docs](http) for a more detailed description of how to use its endpoints.
+The official documentation for this application can be seen at [Niyo docs](https://documenter.getpostman.com/view/33752126/2sA3QmCuEV) for a more detailed description of how to use its endpoints.
 
 #### Running the project locally
 
