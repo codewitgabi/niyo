@@ -27,6 +27,7 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
     lastLogin: {
       type: Date,
@@ -39,6 +40,7 @@ const UserSchema = new Schema(
         return bcrypt.compareSync(password, this.password);
       },
     },
+    toObject: { useProjection: true },
   }
 );
 

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body } from "express-validator";
-import { login, register } from "../controllers/user.controllers.js";
+import { login, logout, register } from "../controllers/user.controllers.js";
 
 const router = Router();
 
@@ -30,5 +30,7 @@ router.post(
   body("password").notEmpty().withMessage("This field is required").escape(),
   login
 );
+
+router.post("/logout", logout)
 
 export default router;

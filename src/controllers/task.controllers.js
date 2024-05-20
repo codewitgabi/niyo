@@ -104,7 +104,7 @@ export const updateTask = async (req, res) => {
       throw new BadRequestError("taskId is not a valid ObjectId");
     }
 
-    throw new ApiError(e.message);
+    throw new ApiError(e.message, 400);
   }
 };
 

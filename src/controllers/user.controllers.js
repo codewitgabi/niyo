@@ -7,6 +7,13 @@ import User from "../models/user.model.js";
 import { ApiError, BadRequestError } from "../utils/error.handler.js";
 config();
 
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @route POST /api/auth/register
+ * @access Public
+ */
 export const register = async (req, res) => {
   try {
     const result = validationResult(req);
@@ -25,13 +32,20 @@ export const register = async (req, res) => {
 
       res
         .status(StatusCodes.CREATED)
-        .json({ data: user, statusCode: StatusCodes.CREATED });
+        .json({ data: user.toObject(), statusCode: StatusCodes.CREATED });
     }
   } catch (e) {
     throw new BadRequestError(e.message);
   }
 };
 
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @route POST /api/auth/login
+ * @access Public
+ */
 export const login = async (req, res) => {
   try {
     const result = validationResult(req);
@@ -44,7 +58,7 @@ export const login = async (req, res) => {
 
     // get user with provided credentials
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
       throw new BadRequestError("User with email does not exist");
@@ -75,13 +89,38 @@ export const login = async (req, res) => {
       }
     );
 
+    const options = {
+      maxAge: 10 * 60 * 1000,
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    };
+
+    res.cookie("Niyo-X-AccessToken", accessToken, options);
+
     res.status(StatusCodes.OK).json({
       data: {
-        accessToken,
+        message: "Login successful",
       },
       statusCode: StatusCodes.OK,
     });
   } catch (e) {
+    console.log(e);
     throw new BadRequestError(e.message);
+  }
+};
+
+export const logout = async (req, res) => {
+  try {
+    res.clearCookie("Niyo-X-AccessToken");
+
+    res.status(StatusCodes.OK).json({
+      data: {
+        message: "Logout successful",
+      },
+      statusCode: StatusCodes.OK,
+    });
+  } catch (e) {
+    throw new ApiError(e.message);
   }
 };
