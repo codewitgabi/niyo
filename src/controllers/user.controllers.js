@@ -4,6 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";
 import { config } from "dotenv";
 import User from "../models/user.model.js";
+import TokenBlacklist from "../models/tokenBlacklist.model.js";
 import { ApiError, BadRequestError } from "../utils/error.handler.js";
 config();
 
@@ -101,10 +102,19 @@ export const login = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @route POST /api/auth/logout
+ * @access Protected
+ */
 export const logout = async (req, res) => {
   try {
-    res.clearCookie("Niyo-X-AccessToken");
+    const { authorization } = req.headers;
+    const [_, token] = authorization.split(" ");
 
+    await TokenBlacklist.create({ token });
     res.status(StatusCodes.OK).json({
       data: {
         message: "Logout successful",

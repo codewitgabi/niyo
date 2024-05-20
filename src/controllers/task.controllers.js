@@ -10,6 +10,13 @@ import {
 } from "../utils/error.handler.js";
 import { isOwner } from "../utils/permissions.js";
 
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @route POST /api/tasks
+ * @access Protected
+ */
 export const createTask = async (req, res) => {
   try {
     const result = validationResult(req);
@@ -30,6 +37,13 @@ export const createTask = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @route POST /api/tasks
+ * @access Protected
+ */
 export const getTasks = async (req, res) => {
   try {
     const tasks = await Task.find({ owner: req.user._id });
@@ -42,6 +56,13 @@ export const getTasks = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @route POST /api/tasks/:taskId
+ * @access Protected
+ */
 export const getTask = async (req, res) => {
   try {
     const result = validationResult(req);
@@ -72,6 +93,13 @@ export const getTask = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @route POST /api/tasks/:taskId
+ * @access Protected
+ */
 export const updateTask = async (req, res) => {
   try {
     const result = validationResult(req);
@@ -108,6 +136,13 @@ export const updateTask = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @route POST /api/tasks
+ * @access Protected
+ */
 export const deleteTask = async (req, res) => {
   try {
     const result = validationResult(req);
