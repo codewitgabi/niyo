@@ -85,12 +85,12 @@ export const login = async (req, res) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "5d",
+        expiresIn: "1h",
       }
     );
 
     const options = {
-      maxAge: 10 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000,
       httpOnly: true,
       secure: true,
       sameSite: "None",
