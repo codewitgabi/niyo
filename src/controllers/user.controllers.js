@@ -89,18 +89,10 @@ export const login = async (req, res) => {
       }
     );
 
-    const options = {
-      maxAge: 24 * 60 * 60 * 1000,
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-    };
-
-    res.cookie("Niyo-X-AccessToken", accessToken, options);
-
     res.status(StatusCodes.OK).json({
       data: {
         message: "Login successful",
+        accessToken,
       },
       statusCode: StatusCodes.OK,
     });

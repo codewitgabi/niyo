@@ -7,15 +7,21 @@ import {
 config();
 
 export const authenticate = (req, res, next) => {
-  const cookies = req.cookies;
+  const { authorization } = req.headers;
 
-  if (!Object.keys(cookies).includes("Niyo-X-AccessToken")) {
+  if (!authorization) {
     throw new PermissionDeniedError(
       "Authentication credentials were not provided"
     );
   }
 
-  const token = cookies["Niyo-X-AccessToken"];
+  const [bearer, token] = authorization.split(" ");
+
+  if (!bearer || !token || bearer !== "Bearer") {
+    throw new BadRequestError(
+      "Authentication credentials were not properly formed"
+    );
+  }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {

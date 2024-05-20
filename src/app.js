@@ -52,3 +52,5 @@ const runserver = async () => {
 };
 
 runserver();
+
+export default app;
