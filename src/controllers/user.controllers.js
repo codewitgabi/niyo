@@ -105,7 +105,6 @@ export const login = async (req, res) => {
       statusCode: StatusCodes.OK,
     });
   } catch (e) {
-    console.log(e);
     throw new BadRequestError(e.message);
   }
 };
